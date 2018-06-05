@@ -330,7 +330,7 @@ void drawDataOnlyPlot(TH1D* data, TString name, TString title, TString unit){
 	legend->Draw("same");
 	can->cd();
 	can->SetWindowSize(800,800);
-	CMS_lumi(Pad1,2,0);
+	CMS_lumi(Pad1,4,0);
 }
 */
 
@@ -359,7 +359,7 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	Pad1->SetTopMargin(0.07);
 	Pad1->SetLeftMargin(0.15);
 	Pad1->SetRightMargin(0.05);
-	Pad1->SetBottomMargin(0);
+	Pad1->SetBottomMargin(0.015);
 
 	double yAxisScaleFactor = 1.5; // for linear y-axis
 	if(plot.log){
@@ -369,7 +369,7 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 
 	Pad1->Draw();
 	Pad1->cd();
-	CMS_lumi(Pad1,2,0);
+	CMS_lumi(Pad1,4,0);
 	Pad1->Update();
 
 	if (plot.yRangeHigh >= 0){
@@ -390,9 +390,10 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	else {
 		if(!plot.log) data->SetMinimum(0);
 	}
-
+	//zmutau_default_METMC_DY_tautau->GetYaxis()->SetLabelSize(0.07);
 	data->GetXaxis()->SetRangeUser(xLow, xHigh);
-	data->GetYaxis()->SetLabelSize(0.07);
+	data->GetYaxis()->SetLabelSize(0.05);
+	data->GetXaxis()->SetLabelSize(0.00);
 	data->GetYaxis()->SetTitleSize(0.07);
 	data->GetYaxis()->SetTitleOffset(1.15);
 	data->SetMarkerColor(kBlack);
@@ -430,8 +431,8 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	ratioband->SetLineColor(18);
 	ratioband->SetMarkerColor(1);
 	ratioband->SetMarkerSize(0.001);
-	TPad* Pad2 = new TPad("Pad1","Pad1",0.,0.,1.,0.3);
-	Pad2->SetTopMargin(0);
+	TPad* Pad2 = new TPad("Pad2","Pad2",0.,0.,1.,0.3);
+	Pad2->SetTopMargin(0.1);
 	Pad2->SetLeftMargin(0.15);
 	Pad2->SetRightMargin(0.05);
 	Pad2->SetBottomMargin(0.4);
@@ -442,11 +443,11 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	Pad2->cd();
 
 	ratio->GetXaxis()->SetTitleSize(0.15);
-	ratio->GetXaxis()->SetLabelSize(0.15);
+	ratio->GetXaxis()->SetLabelSize(0.1);
 	ratio->GetXaxis()->SetTickLength(0.075);
 	ratio->GetXaxis()->SetRangeUser(xLow, xHigh);
 	ratio->GetYaxis()->SetTitleSize(0.15);
-	ratio->GetYaxis()->SetLabelSize(0.15);
+	ratio->GetYaxis()->SetLabelSize(0.1);
 	ratio->GetYaxis()->SetTitleOffset(0.35);
 	ratio->GetYaxis()->CenterTitle();
 	ratio->GetYaxis()->SetNdivisions(4,5,0,kTRUE);
@@ -464,7 +465,7 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	ratio->Draw("Esame");
 	can->cd();
 	can->SetWindowSize(800,800);
-	CMS_lumi(Pad1,2,0);
+	CMS_lumi(Pad1,4,0);
 	
 	savePlot(can, plot.identifier);
 }
@@ -547,7 +548,7 @@ void drawPlot(TH1D* histo1, TH1D* histo2, TH1D* ratio, TString name1, TString na
 	line->Draw("same");
 	can->cd();
 	can->SetWindowSize(800,800);
-	CMS_lumi(Pad1,2,0);
+	CMS_lumi(Pad1,4,0);
 }
 
 //todo: What is this for? Do we need it? Needs adaption.
@@ -630,7 +631,7 @@ void drawPlot(TH1D* data, std::vector<TH1D*> histos, TH1D* ratio, std::vector<TS
 	line->Draw("same");
 	can->cd();
 	can->SetWindowSize(800,800);
-	CMS_lumi(Pad1,2,0);
+	CMS_lumi(Pad1,4,0);
 }
 */
 

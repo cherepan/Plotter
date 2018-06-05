@@ -19,8 +19,9 @@ bool overlaySignal = false;
 
 // create configInfo struct
 double lumi = 19712.;
-TString infile = "LOCAL_COMBINED_ztauhtauh_default_LumiScaled.root";
-TString ident = "ztauhtauh_default_";
+//TString infile = "LOCAL_COMBINED_ztauhtauh_default_LumiScaled.root";
+TString infile = "LOCAL_COMBINED_zmutau_default_LumiScaled.root";
+TString ident = "zmutau_default_";
 //TString ident = "ztotauhtaumu_default_Cut_10_Nminus1_";
 bool isLumiScaled = true; // specify if input root file is already scaled to lumi
 
