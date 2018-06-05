@@ -115,13 +115,13 @@ void printSample(sample& s, configInfo conf){
 
 	if( !conf.isFileLumiScaled && (s.identifier.size() != s.mcScale.size()) ){
 			printf("  WARNING: sizes of vectors in sample differ! mcScale info is needed!\n");
-			printf("  size(identifier) = %i, size(mcScale) = %i\n", s.identifier.size(), s.mcScale.size());
+			printf("  size(identifier) = %zu, size(mcScale) = %zu\n", s.identifier.size(), s.mcScale.size());
 			return;
 	}
 
 	printf("  is considered as %s\n", s.isSignal ? "signal" : "background");
 	printf("  will be drawn with color = %i\n", s.color);
-	printf("  sample consists of %i subsamples:\n", s.identifier.size());
+	printf("  sample consists of %zu subsamples:\n", s.identifier.size());
 	for(unsigned i = 0; i<s.identifier.size(); i++){
 		printf("    subsample %i has identifier %s \n", i+1, s.identifier.at(i).Data());
 		if(!conf.isFileLumiScaled) printf("      and mcScale = %.6f\n", s.mcScale.at(i));
@@ -170,7 +170,7 @@ bool testSample(sample sam){
 	}
 	if(sam.identifier.size() != sam.mcScale.size()){
 		printf(" ERROR: sizes of vectors in sample differ! \n");
-		printf(" size(identifier) = %i, size(mcScale) = %i\n", sam.identifier.size(), sam.mcScale.size());
+		printf(" size(identifier) = %zu, size(mcScale) = %zu\n", sam.identifier.size(), sam.mcScale.size());
 		return false;
 	}
 	if(sam.legName == ""){
