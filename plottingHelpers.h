@@ -408,7 +408,8 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	data->GetYaxis()->SetTitleOffset( (doRatio) ? 1.15 : 1.0);
 	data->GetXaxis()->SetTitleOffset( (doRatio) ? 1.15 : 1.15);
 	data->SetMarkerColor(kBlack);
-	data->SetMarkerStyle(20);
+	data->SetLineWidth(2);
+
 	TString ytit = "Events / %.2f ";
 	TString yTitle = ytit+plot.unit;
 	data->GetYaxis()->SetTitle(Form(yTitle.Data(),data->GetBinWidth(1)));
