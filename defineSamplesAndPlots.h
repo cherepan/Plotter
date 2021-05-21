@@ -1,6 +1,7 @@
 #ifndef defineSamplesAndPlots_h
 #define defineSamplesAndPlots_h
 
+
 /////////////////////////////////////////////////
 //
 // defineSamplesAndPlots:
@@ -16,15 +17,26 @@
 
 // define samples to use
 std::vector<sample> defineSamples(){
-	 sample s_qcd		("QCD"					, col_htt_qcd, "QCD"); 
-	 sample s_ztt		("Z#rightarrow#tau#tau"	, col_htt_Ztt, "MC_DY_tautau"); //"MC_DY_tautau"); 
-	 sample s_zll		("Z#rightarrowll"		, col_rwth_lightblue, "MC_DY_eemumu"); 
-	 sample s_ww			("WW"					, 417, "MC_WW_2l2nu"); 
-	 sample s_zz4l		("ZZ#rightarrowllll"	, 420, "MC_ZZ_4l");  
-	 sample s_zz2l2nu	("ZZ#rightarrowll#nu#nu", 416, "MC_ZZ_2l2nu");  
-	 sample s_zz2l2q		("ZZ#rightarrowllqq"	, 415, "MC_ZZ_2l2q"); 
-	 sample s_ttbar		("t#bar{t}"				, 600, "MC_ttbar"); 
-	 sample s_Wlnu		("W#rightarrowl#nu"		, 876, "MC_W_lnu");  
+	 sample s_ds		("D_{s}#rightarrow #tau_{3#mu}"					, col_htt_qcd, "MC1"); 
+	 sample s_b0		("B^{0}#rightarrow #tau_{3#mu}"					, col_rwth_green, "MC2"); 
+	 sample s_bp		("B^{p}#rightarrow #tau_{3#mu}"					, col_rwth_yellow, "MC3"); 
+	 sample s_etamumugamma  ("D_{s}#rightarrow#eta_{#mu#mu#gamma}#mu#nu"			, col_htt_tt, "MC6"); 
+	 sample s_phimumugamma  ("D_{s}#rightarrow#phi_{#mu#mu#gamma}#mu#nu"			, col_htt_W, "MC10"); 
+	 sample s_etamumu       ("D_{s}#rightarrow#eta_{#mu#mu}#mu#nu"			, col_rwth_magenta, "MC7"); 
+	 sample s_etaprimemumugamma      ("D_{s}#rightarrow#eta'_{#mu#mu}#mu#nu"			, col_rwth_red, "MC8"); 
+	 sample s_omega      ("D_{s}#rightarrow#omega_{#mu#mu#pi}#mu#nu"			, col_rwth_orange, "MC9"); 
+
+
+
+
+	 //	 sample s_ztt		("Z#rightarrow#tau#tau"	, col_htt_Ztt, "MC_DY_tautau"); //"MC_DY_tautau"); 
+	 //	/ sample s_zll		("Z#rightarrowll"		, col_rwth_lightblue, "MC_DY_eemumu"); 
+	 //	 sample s_ww			("WW"					, 417, "MC_WW_2l2nu"); 
+	 //	 sample s_zz4l		("ZZ#rightarrowllll"	, 420, "MC_ZZ_4l");  
+	 //	 sample s_zz2l2nu	("ZZ#rightarrowll#nu#nu", 416, "MC_ZZ_2l2nu");  
+	 //	 sample s_zz2l2q		("ZZ#rightarrowllqq"	, 415, "MC_ZZ_2l2q"); 
+	 //	 sample s_ttbar		("t#bar{t}"				, 600, "MC_ttbar"); 
+	 //	 sample s_Wlnu		("W#rightarrowl#nu"		, 876, "MC_W_lnu");  
 	 /* sample s_Wtaunu		("W#rightarrow#tau#nu"	, 874, "MC_W_taunu");  */
 
 	// *** examples for sample creation when scaling manually ***
@@ -36,28 +48,31 @@ std::vector<sample> defineSamples(){
 
 	// combine samples for plotting
 
-	 sample s_dytt(s_ztt, "DY(#tau#tau)", col_htt_Ztt); 
-	 sample s_dyll(s_zll, "DY(ee/#mu#mu)", col_rwth_lightblue);
+	 //sample s_dytt(s_ztt, "DY(#tau#tau)", col_htt_Ztt); 
+	 //sample s_dyll(s_zll, "DY(ee/#mu#mu)", col_rwth_lightblue);
 	/* s_dy += s_zll; */
-	 sample s_ewk(s_ww, "di-bosons", col_htt_W); 
-	  s_ewk += s_zz4l;  
-	  s_ewk += s_zz2l2nu;  
-	  s_ewk += s_zz2l2q;  
+	 //	 sample s_ewk(s_ww, "di-bosons", col_htt_W); 
+	 // s_ewk += s_zz4l;  
+	 //s_ewk += s_zz2l2nu;  
+	 //s_ewk += s_zz2l2q;  
 	  //	  s_ewk += s_Wlnu;  
 	 /* s_ewk += s_Wtaunu;  */
-	 sample s_top(s_ttbar, "t#bar{t}", col_htt_tt); 
+	 //sample s_top(s_ttbar, "t#bar{t}", col_htt_tt); 
 
 
 	// define which samples to plot and in which order:
 	// sample pushed back later will be drawn later, i.e. on top.
 	// All signal samples MUST be added after all background samples! Add them last.
 	 std::vector<sample> samples;
-	 samples.push_back(s_qcd); 
-	  samples.push_back(s_top);  
-	  samples.push_back(s_ewk); 
-	  samples.push_back(s_Wlnu); 
-	  samples.push_back(s_dyll); 
-	  samples.push_back(s_dytt); 
+	 samples.push_back(s_ds); 
+	 samples.push_back(s_b0); 
+	 samples.push_back(s_bp); 
+	 samples.push_back(s_etamumugamma); 
+	 samples.push_back(s_phimumugamma); 
+
+	 samples.push_back(s_etamumu); 
+	 samples.push_back(s_etaprimemumugamma); 
+	 samples.push_back(s_omega); 
 
 	if (verbose){
 		std::cout << "###>-- The following samples will be plotted:" << std::endl;
@@ -73,29 +88,21 @@ std::vector<sample> defineSamples(){
 // define which plots to draw
 // look at plotInfo.h to see which constructors exist
 std::vector<plotInfo> definePlots(){
-	std::vector<plotInfo> plots;
-	//plots.push_back( plotInfo("HiggsGenMass", "GeV", true, 1, 108, 112));
-//	plots.push_back( plotInfo("DataMCType", "", true, 1, 11010., 16013.));
-//	plots.push_back( plotInfo("DataMCTypeFromNtuple", "", true, 1, 0., 20000.));
-	plots.push_back( plotInfo("TransverseMass", "GeV", false, 1));
+  std::vector<plotInfo> plots;
+  //plots.push_back( plotInfo("HiggsGenMass", "GeV", true, 1, 108, 112));
+  //	plots.push_back( plotInfo("DataMCType", "", true, 1, 11010., 16013.));
+  //	plots.push_back( plotInfo("DataMCTypeFromNtuple", "", true, 1, 0., 20000.));
+  //  plots.push_back( plotInfo("TransverseMass", "GeV", false, 1));
 
-plots.push_back( plotInfo("MuonPT", "GeV") );  
-plots.push_back( plotInfo("TauPT", "GeV") );  
-plots.push_back( plotInfo("TauE", "GeV") );  
-plots.push_back( plotInfo("MuonE", "GeV") );  
-plots.push_back( plotInfo("Taudz", "") );  
-plots.push_back( plotInfo("TauPhi", "rad") );  
-plots.push_back( plotInfo("MuonPhi", "rad") );  
-plots.push_back( plotInfo("MuonMass", "GeV") );   
-plots.push_back( plotInfo("TauEta", "") );   
-plots.push_back( plotInfo("MuonEta", "") );   
-plots.push_back( plotInfo("TauMass", "GeV") );   
-plots.push_back( plotInfo("TauHPSDecayMode", "HPS Mode") );   
-plots.push_back( plotInfo("METphi", "rad") );    
-plots.push_back( plotInfo("MET", "GeV") );    
-plots.push_back( plotInfo("TauTauMass", "GeV") );  
-plots.push_back( plotInfo("dRTauTau", "") );   
-plots.push_back( plotInfo("Cut_8_Nminus1_MTM_", "GeV") ); 
+plots.push_back( plotInfo("TauMassRefitABC1", "GeV") );  
+//plots.push_back( plotInfo("TauMassRefitABC2", "GeV") );  
+
+//plots.push_back( plotInfo("TauMassRefitABC1_BDSeparateTrain", "GeV") );  
+//plots.push_back( plotInfo("TauMassRefitABC2_BDSeparateTrain", "GeV") );  
+
+//plots.push_back( plotInfo("AllignSortMass1", "GeV") );  
+//plots.push_back( plotInfo("AllignSortMass2", "GeV") );  
+
 
 //	plots.push_back( plotInfo("Cut_10_Nminus1_MT_", "GeV") );
 //	plots.push_back( plotInfo("MtAfterOppCharge", "GeV", false, 2) );

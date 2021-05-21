@@ -18,13 +18,13 @@ bool testPlotting = false;
 bool overlaySignal = false;
 
 // create configInfo struct
-double lumi = 19712.;
+double lumi = 58345.28;
 //TString infile = "LOCAL_COMBINED_ztauhtauh_default_LumiScaled.root";
-TString infile = "LOCAL_COMBINED_zmutau_default_LumiScaled.root";
-TString ident = "zmutau_default_";
+TString infile = "LOCAL_COMBINED_commonselector_default_LumiScaled.root";
+TString ident = "commonselector_default_";
 //TString ident = "ztotauhtaumu_default_Cut_10_Nminus1_";
 bool isLumiScaled = true; // specify if input root file is already scaled to lumi
-
+bool doRatio = false;//  if add the Data/MC pad
 // define user-specific config
 configInfo conf(infile, isLumiScaled, ident, lumi);
 

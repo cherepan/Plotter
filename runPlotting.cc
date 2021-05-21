@@ -45,7 +45,7 @@ void runPlotting(){
 		plotInfo testPlot = plots.at(0);
 		TH1D* datahist = getHisto(conf, testPlot.identifier+"Data", 1, 1);
 		manipulateHisto(datahist, testPlot);
-		drawPlot(conf, testPlot, datahist, samples);
+		drawPlot(conf, testPlot, datahist, samples, doRatio);
 	}else{
 		std::vector<TH1D*> datahists;
 		for(unsigned p = 0; p < plots.size(); p++){
@@ -54,7 +54,7 @@ void runPlotting(){
 			datahists.push_back(datahist);
 		}
 		for(unsigned p = 0; p < plots.size(); p++){
-			drawPlot(conf, plots.at(p), datahists.at(p), samples);
+		  drawPlot(conf, plots.at(p), datahists.at(p), samples, doRatio);
 		}
 	}
 

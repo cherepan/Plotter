@@ -26,13 +26,9 @@ int errorBandColor = kGray + 2;
 // test definiton of structs
 void testInputs(configInfo config, std::vector<sample> samples, std::vector<plotInfo> plots){
 	bool isValid = true;
-	std::cout<<" isValid 1  "<< isValid<<std::endl;
 	isValid &= testConfigInfo(config, verbose);
-	std::cout<<" isValid 2  "<< isValid<<std::endl;
 	isValid &= testSamples(samples);
-	std::cout<<" isValid 3  "<< isValid<<std::endl;
 	isValid &= testPlots(plots);
-	std::cout<<" isValid 4  "<< isValid<<std::endl;
 	if(!isValid){
 		std::cout << "========== WARNING: Your inputs (configInfo, plotInfo or sample) seem to be corrupted! ==========" << std::endl;
 	}
@@ -266,6 +262,9 @@ TString timeStamp(bool Date, bool Time){
 
 void savePlot(TCanvas* canvas, TString plotName, bool useTimedFolders = true){
 	TString fileName = plotName + ".eps";
+	TString fileNameps = plotName + ".ps";
+	TString fileNamepng = plotName + ".png";
+	TString fileNamepdf = plotName + ".pdf";
 
 	// store plots in individual folder
 	TString pwd = gSystem->WorkingDirectory();
@@ -278,7 +277,10 @@ void savePlot(TCanvas* canvas, TString plotName, bool useTimedFolders = true){
 	}
 
 	canvas->cd();
-	canvas->SaveAs(fileName.Data());
+	//canvas->SaveAs(fileName.Data());
+	//canvas->SaveAs(fileNameps.Data());
+	canvas->SaveAs(fileNamepng.Data());
+	canvas->SaveAs(fileNamepdf.Data());
 
 	if (useTimedFolders){
 		gSystem->ChangeDirectory(pwd);
@@ -294,7 +296,7 @@ void convertAllEpsToPdf(){
 		std::cout << "Plots are saved in folder " << timeNow << std::endl;
 	}
 
-	gSystem->Exec("for i in `ls -1 *.eps`; do epstopdf $i; done");
+	gSystem->Exec("for i in `ls -1 *.ps`; do ps2pdf $i; done");
 
 	gSystem->ChangeDirectory(pwd);
 }
@@ -334,7 +336,7 @@ void drawDataOnlyPlot(TH1D* data, TString name, TString title, TString unit){
 }
 */
 
-void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> samples){
+void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> samples, bool doRatio){
 	if(verbose) std::cout << "--> drawPlot(configInfo, plotInfo, TH1D*, vector<sample>, TString)" << std::endl;
 
 	// Set tick marks on all 4 sides of pad
@@ -353,13 +355,20 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	double xHigh = (plot.xRangeHigh != -9.9) ? plot.xRangeHigh : data->GetXaxis()->GetXmax();
 
 	TCanvas* can = new TCanvas();
+
 	THStack* stack = produceHistStack(backgrounds);
 	TH1D* total = produceTotal(backgrounds);
-	TPad* Pad1 = new TPad("Pad1","Pad1",0.,0.3,1.,1.);
+
+
+	
+
+	TPad* Pad1 = new TPad("Pad1","Pad1",0.,  doRatio ? 0.3 : 0.  ,1.,1.);
+	Pad1->SetFrameLineWidth(2);
+
 	Pad1->SetTopMargin(0.07);
-	Pad1->SetLeftMargin(0.15);
+	Pad1->SetLeftMargin( (doRatio) ? 0.15 : 0.1);
 	Pad1->SetRightMargin(0.05);
-	Pad1->SetBottomMargin(0.015);
+	Pad1->SetBottomMargin( (doRatio) ? 0.015 : 0.15);
 
 	double yAxisScaleFactor = 1.5; // for linear y-axis
 	if(plot.log){
@@ -369,7 +378,7 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 
 	Pad1->Draw();
 	Pad1->cd();
-	CMS_lumi(Pad1,4,0);
+	CMS_lumi(Pad1,1,0);
 	Pad1->Update();
 
 	if (plot.yRangeHigh >= 0){
@@ -392,18 +401,29 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	}
 	//zmutau_default_METMC_DY_tautau->GetYaxis()->SetLabelSize(0.07);
 	data->GetXaxis()->SetRangeUser(xLow, xHigh);
-	data->GetYaxis()->SetLabelSize(0.05);
-	data->GetXaxis()->SetLabelSize(0.00);
-	data->GetYaxis()->SetTitleSize(0.07);
-	data->GetYaxis()->SetTitleOffset(1.15);
+	data->GetYaxis()->SetLabelSize(0.04);
+	data->GetXaxis()->SetLabelSize( (doRatio )  ? 0 : 0.04);
+	data->GetYaxis()->SetTitleSize( (doRatio) ? 0.07 : 0.04 );
+	data->GetXaxis()->SetTitleSize( (doRatio) ? 0.07 : 0.04 );
+	data->GetYaxis()->SetTitleOffset( (doRatio) ? 1.15 : 1.0);
+	data->GetXaxis()->SetTitleOffset( (doRatio) ? 1.15 : 1.15);
 	data->SetMarkerColor(kBlack);
 	data->SetMarkerStyle(20);
 	TString ytit = "Events / %.2f ";
 	TString yTitle = ytit+plot.unit;
 	data->GetYaxis()->SetTitle(Form(yTitle.Data(),data->GetBinWidth(1)));
+
+	//	if(!doRatio){
+	//	  total->GetXaxis()->SetTitle(data->GetXaxis()->GetTitle());
+	//	  total->GetXaxis()->SetTitleOffset(1.15);
+	//	}
+
 	data->Draw("E");
 	stack->Draw("Histsame");
 	total->Draw("E2same");
+
+
+
 
 	// draw signal samples overlayed
 	for (unsigned s = 0; s < signals.size(); s++){
@@ -419,53 +439,64 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	TLegend* legend = createLegend(data, total, backgrounds,signals,samples);
 	legend->Draw("same");
 
-	// draw data-MC ratio plot
-	can->cd();
-	TH1D* ratioband = (TH1D*) total->Clone(plot.identifier + "_ratioband");
-	for(int i=1;i<=ratioband->GetNbinsX();i++){
-		ratioband->SetBinContent(i,1);
-		ratioband->SetBinError(i,total->GetBinError(i)/total->GetBinContent(i));
+
+
+
+
+	if(doRatio){
+
+	  // draw data-MC ratio plot
+	  can->cd();
+	  TH1D* ratioband = (TH1D*) total->Clone(plot.identifier + "_ratioband");
+	  for(int i=1;i<=ratioband->GetNbinsX();i++){
+	    ratioband->SetBinContent(i,1);
+	    ratioband->SetBinError(i,total->GetBinError(i)/total->GetBinContent(i));
+	  }
+	  ratioband->SetFillStyle(errorBandFillStyle);
+	  ratioband->SetFillColor(errorBandColor);
+	  ratioband->SetLineColor(18);
+	  ratioband->SetMarkerColor(1);
+	  ratioband->SetMarkerSize(0.001);
+	  TPad* Pad2 = new TPad("Pad2","Pad2",0.,0.,1.,0.3);
+	  Pad2->SetTopMargin(0.1);
+	  Pad2->SetLeftMargin(0.15);
+	  Pad2->SetRightMargin(0.05);
+	  Pad2->SetBottomMargin(0.4);
+	  Pad2->SetTickx(kTRUE);
+	  Pad2->SetGridx();
+	  Pad2->SetGridy();
+	  Pad2->Draw();
+	  Pad2->cd();
+	  
+	  ratio->GetXaxis()->SetTitleSize(0.15);
+	  ratio->GetXaxis()->SetLabelSize(0.1);
+	  ratio->GetXaxis()->SetTickLength(0.075);
+	  ratio->GetXaxis()->SetRangeUser(xLow, xHigh);
+	  ratio->GetYaxis()->SetTitleSize(0.15);
+	  ratio->GetYaxis()->SetLabelSize(0.1);
+	  ratio->GetYaxis()->SetTitleOffset(0.35);
+	  ratio->GetYaxis()->CenterTitle();
+	  ratio->GetYaxis()->SetNdivisions(4,5,0,kTRUE);
+	  
+	  ratio->SetMarkerStyle(20);
+	  ratio->SetMarkerSize(0.7);
+	  ratio->SetLineColor(kBlack);
+	  
+	  // line at ratio = 1
+	  TLine* line = new TLine(xLow,1,xHigh,1);
+	  
+	  ratio->Draw("E");
+	  ratioband->Draw("E2same");
+	  line->Draw("same");
+	  ratio->Draw("Esame");
+	  
 	}
-	ratioband->SetFillStyle(errorBandFillStyle);
-	ratioband->SetFillColor(errorBandColor);
-	ratioband->SetLineColor(18);
-	ratioband->SetMarkerColor(1);
-	ratioband->SetMarkerSize(0.001);
-	TPad* Pad2 = new TPad("Pad2","Pad2",0.,0.,1.,0.3);
-	Pad2->SetTopMargin(0.1);
-	Pad2->SetLeftMargin(0.15);
-	Pad2->SetRightMargin(0.05);
-	Pad2->SetBottomMargin(0.4);
-	Pad2->SetTickx(kTRUE);
-	Pad2->SetGridx();
-	Pad2->SetGridy();
-	Pad2->Draw();
-	Pad2->cd();
 
-	ratio->GetXaxis()->SetTitleSize(0.15);
-	ratio->GetXaxis()->SetLabelSize(0.1);
-	ratio->GetXaxis()->SetTickLength(0.075);
-	ratio->GetXaxis()->SetRangeUser(xLow, xHigh);
-	ratio->GetYaxis()->SetTitleSize(0.15);
-	ratio->GetYaxis()->SetLabelSize(0.1);
-	ratio->GetYaxis()->SetTitleOffset(0.35);
-	ratio->GetYaxis()->CenterTitle();
-	ratio->GetYaxis()->SetNdivisions(4,5,0,kTRUE);
 
-	ratio->SetMarkerStyle(20);
-	ratio->SetMarkerSize(0.7);
-	ratio->SetLineColor(kBlack);
 
-	// line at ratio = 1
-	TLine* line = new TLine(xLow,1,xHigh,1);
-
-	ratio->Draw("E");
-	ratioband->Draw("E2same");
-	line->Draw("same");
-	ratio->Draw("Esame");
 	can->cd();
 	can->SetWindowSize(800,800);
-	CMS_lumi(Pad1,4,0);
+	CMS_lumi(Pad1,1,0);
 	
 	savePlot(can, plot.identifier);
 }
@@ -548,7 +579,7 @@ void drawPlot(TH1D* histo1, TH1D* histo2, TH1D* ratio, TString name1, TString na
 	line->Draw("same");
 	can->cd();
 	can->SetWindowSize(800,800);
-	CMS_lumi(Pad1,4,0);
+	CMS_lumi(Pad1,1,0);
 }
 
 //todo: What is this for? Do we need it? Needs adaption.

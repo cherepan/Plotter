@@ -33,6 +33,7 @@ float relExtraDY = 1.2;
 float extraOverCmsTextSize  = 0.76;
 
 TString lumi_13TeV = "35.8 fb^{-1}";
+TString lumi_13TeV_2018 = "58.8 fb^{-1}";
 TString lumi_8TeV  = "";
 TString lumi_7TeV  = "5.1 fb^{-1}";
 
