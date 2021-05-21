@@ -528,9 +528,9 @@ void drawPlot(TH1D* histo1, TH1D* histo2, TH1D* ratio, TString name1, TString na
 	Pad1->cd();
 
 	if(histo1->GetMaximum()>=histo2->GetMaximum()){
-		histo1->GetYaxis()->SetRangeUser(0,histo1->GetMaximum()*1.2);
+		histo1->GetYaxis()->SetRangeUser(0.001,histo1->GetMaximum()*1.2);
 	}else{
-		histo1->GetYaxis()->SetRangeUser(0,histo2->GetMaximum()*1.2);
+		histo1->GetYaxis()->SetRangeUser(0.001,histo2->GetMaximum()*1.2);
 	}
 	histo1->GetYaxis()->SetLabelSize(0.07);
 	histo1->GetYaxis()->SetTitleSize(0.07);

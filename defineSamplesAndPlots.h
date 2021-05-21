@@ -17,27 +17,16 @@
 
 // define samples to use
 std::vector<sample> defineSamples(){
-	 sample s_ds		("D_{s}#rightarrow #tau_{3#mu}"					, col_htt_qcd, "MC1"); 
-	 sample s_b0		("B^{0}#rightarrow #tau_{3#mu}"					, col_rwth_green, "MC2"); 
-	 sample s_bp		("B^{p}#rightarrow #tau_{3#mu}"					, col_rwth_yellow, "MC3"); 
-	 sample s_etamumugamma  ("D_{s}#rightarrow#eta_{#mu#mu#gamma}#mu#nu"			, col_htt_tt, "MC6"); 
-	 sample s_phimumugamma  ("D_{s}#rightarrow#phi_{#mu#mu#gamma}#mu#nu"			, col_htt_W, "MC10"); 
-	 sample s_etamumu       ("D_{s}#rightarrow#eta_{#mu#mu}#mu#nu"			, col_rwth_magenta, "MC7"); 
-	 sample s_etaprimemumugamma      ("D_{s}#rightarrow#eta'_{#mu#mu}#mu#nu"			, col_rwth_red, "MC8"); 
-	 sample s_omega      ("D_{s}#rightarrow#omega_{#mu#mu#pi}#mu#nu"			, col_rwth_orange, "MC9"); 
+	 sample s_ds		         ("D_{s}#rightarrow #tau_{3#mu}#nu"					, col_htt_qcd, "MC1"); 
+	 sample s_b0	            	 ("B^{0}#rightarrow #tau_{3#mu}#nu + X"					, col_rwth_green, "MC2"); 
+	 sample s_bp		         ("B^{#pm}#rightarrow #tau_{3#mu}#nu + X"					, col_rwth_yellow, "MC3"); 
+	 sample s_etamumugamma           ("D_{s}#rightarrow#eta_{#mu#mu#gamma}#mu#nu"			        , col_htt_tt, "MC6"); 
+	 sample s_phimumugamma           ("D_{s}#rightarrow#phi_{#mu#mu#gamma}#mu#nu"			        , col_htt_W, "MC10"); 
+	 sample s_etamumu                ("D_{s}#rightarrow#eta_{#mu#mu}#mu#nu"			                , col_rwth_magenta, "MC7"); 
+	 sample s_etaprimemumugamma      ("D_{s}#rightarrow#eta'_{#mu#mu}#mu#nu"		                , col_rwth_red, "MC8"); 
+	 sample s_omega                  ("D_{s}#rightarrow#omega_{#mu#mu#pi}#mu#nu"			        , col_rwth_orange, "MC9"); 
 
 
-
-
-	 //	 sample s_ztt		("Z#rightarrow#tau#tau"	, col_htt_Ztt, "MC_DY_tautau"); //"MC_DY_tautau"); 
-	 //	/ sample s_zll		("Z#rightarrowll"		, col_rwth_lightblue, "MC_DY_eemumu"); 
-	 //	 sample s_ww			("WW"					, 417, "MC_WW_2l2nu"); 
-	 //	 sample s_zz4l		("ZZ#rightarrowllll"	, 420, "MC_ZZ_4l");  
-	 //	 sample s_zz2l2nu	("ZZ#rightarrowll#nu#nu", 416, "MC_ZZ_2l2nu");  
-	 //	 sample s_zz2l2q		("ZZ#rightarrowllqq"	, 415, "MC_ZZ_2l2q"); 
-	 //	 sample s_ttbar		("t#bar{t}"				, 600, "MC_ttbar"); 
-	 //	 sample s_Wlnu		("W#rightarrowl#nu"		, 876, "MC_W_lnu");  
-	 /* sample s_Wtaunu		("W#rightarrow#tau#nu"	, 874, "MC_W_taunu");  */
 
 	// *** examples for sample creation when scaling manually ***
 	// std::map<int, int> MnEvents = readSkimSummary("mySkimSummary.log");
@@ -58,6 +47,9 @@ std::vector<sample> defineSamples(){
 	  //	  s_ewk += s_Wlnu;  
 	 /* s_ewk += s_Wtaunu;  */
 	 //sample s_top(s_ttbar, "t#bar{t}", col_htt_tt); 
+
+
+
 
 
 	// define which samples to plot and in which order:
@@ -93,18 +85,17 @@ std::vector<plotInfo> definePlots(){
   //	plots.push_back( plotInfo("DataMCType", "", true, 1, 11010., 16013.));
   //	plots.push_back( plotInfo("DataMCTypeFromNtuple", "", true, 1, 0., 20000.));
   //  plots.push_back( plotInfo("TransverseMass", "GeV", false, 1));
-
-plots.push_back( plotInfo("TauMassRefitABC1", "GeV") );  
-//plots.push_back( plotInfo("TauMassRefitABC2", "GeV") );  
-
-//plots.push_back( plotInfo("TauMassRefitABC1_BDSeparateTrain", "GeV") );  
-//plots.push_back( plotInfo("TauMassRefitABC2_BDSeparateTrain", "GeV") );  
-
-//plots.push_back( plotInfo("AllignSortMass1", "GeV") );  
-//plots.push_back( plotInfo("AllignSortMass2", "GeV") );  
+  
+  plots.push_back( plotInfo("TauMassRefitABC1", "GeV") );  
+  plots.push_back( plotInfo("TauMassRefitABC2", "GeV") );  
+  
+  plots.push_back( plotInfo("TauMassRefitABC1_BDSeparateTrain", "GeV") );  
+  plots.push_back( plotInfo("TauMassRefitABC2_BDSeparateTrain", "GeV") );  
 
 
-//	plots.push_back( plotInfo("Cut_10_Nminus1_MT_", "GeV") );
+
+
+  //	plots.push_back( plotInfo("Cut_10_Nminus1_MT_", "GeV") );
 //	plots.push_back( plotInfo("MtAfterOppCharge", "GeV", false, 2) );
 //	plots.push_back( plotInfo("MetPt", "GeV", false, 1, 0., 80.));
 //
