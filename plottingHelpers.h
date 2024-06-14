@@ -198,24 +198,26 @@ TLegend* createLegend(TH1D* histo1, TH1D* histo2, TString name1, TString name2){
 }
 
 // needs to be adapted
-TLegend* createLegend(TH1D* data, TString name){
-	if(verbose) std::cout << "--> createLegend(TH1D*, TString)" << std::endl;
-	TLegend* legend = new TLegend(0.7,0.77,0.90,0.87);
-	legend->SetFillColor(0);
-	legend->SetBorderSize(0);
-	legend->SetFillStyle(0);
-	legend->AddEntry(data,name,"F");
-	return legend;
+TText* createCMSText(TString text){
+        TText *t = new TText(.15,.94, text);
+	t->SetNDC(true);
+	t->SetTextSize(0.03);
+	//        t->SetFillColor(0);
+	//        t->SetBorderSize(0);
+	//        t->SetFillStyle(0);
+
+	return t;
 }
 
 TLegend* createLegend(TH1D* data, TH1D* total, std::vector<TH1D*> backgrounds, std::vector<TH1D*> signals, std::vector<sample> samples){
 	if(verbose) std::cout << "--> createLegend(TH1D*, TH1D*, vector<TH1D*>, vector<TH1D*>, vector<sample>)" << std::endl;
-	TLegend* legend = new TLegend(0.73,0.37,0.93,0.87);
+	//	TLegend* legend = new TLegend(0.73,0.37,0.93,0.87);
+	TLegend* legend = new TLegend(0.73,0.65,0.93,0.87);
 	legend->SetFillColor(0);
 	legend->SetBorderSize(0);
 	legend->SetFillStyle(0);
 	legend->AddEntry(data,"Data","pe");
-	legend->AddEntry(total, "Bkg uncertainty", "F");
+
 
 	if(backgrounds.size() + signals.size() != samples.size())
 		std::cout << "ERROR: createLegend: histos and samples have unequal size!" << std::endl;
@@ -226,6 +228,7 @@ TLegend* createLegend(TH1D* data, TH1D* total, std::vector<TH1D*> backgrounds, s
 		int i_sample = i + backgrounds.size();
 		legend->AddEntry(signals.at(i),samples.at(i_sample).legName,"l");
 	}
+	legend->AddEntry(total, "MC unc", "F");
 	return legend;
 }
 
@@ -366,7 +369,8 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	Pad1->SetFrameLineWidth(2);
 
 	Pad1->SetTopMargin(0.07);
-	Pad1->SetLeftMargin( (doRatio) ? 0.15 : 0.1);
+	//	Pad1->SetLeftMargin( (doRatio) ? 0.15 : 0.1);
+	Pad1->SetLeftMargin(  0.15 );
 	Pad1->SetRightMargin(0.05);
 	Pad1->SetBottomMargin( (doRatio) ? 0.015 : 0.15);
 
@@ -402,14 +406,18 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 	//zmutau_default_METMC_DY_tautau->GetYaxis()->SetLabelSize(0.07);
 	data->GetXaxis()->SetRangeUser(xLow, xHigh);
 	data->GetYaxis()->SetLabelSize(0.04);
-	data->GetXaxis()->SetLabelSize( (doRatio )  ? 0 : 0.04);
+	//	data->GetXaxis()->SetLabelSize( (doRatio )  ? 0 : 0.04);
+	data->GetXaxis()->SetLabelSize( 0.03 );
+	data->GetYaxis()->SetLabelSize( 0.03 );
 	data->GetYaxis()->SetTitleSize( (doRatio) ? 0.07 : 0.04 );
+
 	data->GetXaxis()->SetTitleSize( (doRatio) ? 0.07 : 0.04 );
-	data->GetYaxis()->SetTitleOffset( (doRatio) ? 1.15 : 1.0);
+	//	data->GetYaxis()->SetTitleOffset( (doRatio) ? 1.15 : 1.0);
+	data->GetYaxis()->SetTitleOffset( 1.50 );
 	data->GetXaxis()->SetTitleOffset( (doRatio) ? 1.15 : 1.15);
 	data->SetMarkerColor(kBlack);
 	data->SetLineWidth(2);
-
+	data->SetTitle("CMS preliminary");
 	TString ytit = "Events / %.2f ";
 	TString yTitle = ytit+plot.unit;
 	data->GetYaxis()->SetTitle(Form(yTitle.Data(),data->GetBinWidth(1)));
@@ -442,6 +450,8 @@ void drawPlot(configInfo conf, plotInfo plot, TH1D* data, std::vector<sample> sa
 
 
 
+	TText* CMSt = createCMSText("CMS, work in progress");
+	CMSt -> Draw("same");
 
 
 	if(doRatio){

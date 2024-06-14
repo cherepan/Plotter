@@ -17,14 +17,8 @@
 
 // define samples to use
 std::vector<sample> defineSamples(){
-	 sample s_ds		         ("D_{s}#rightarrow #tau_{3#mu}#nu"					, col_htt_qcd, "MC1"); 
-	 sample s_b0	            	 ("B^{0}#rightarrow #tau_{3#mu}#nu + X"					, col_rwth_green, "MC2"); 
-	 sample s_bp		         ("B^{#pm}#rightarrow #tau_{3#mu}#nu + X"					, col_rwth_yellow, "MC3"); 
-	 sample s_etamumugamma           ("D_{s}#rightarrow#eta_{#mu#mu#gamma}#mu#nu"			        , col_htt_tt, "MC6"); 
-	 sample s_phimumugamma           ("D_{s}#rightarrow#phi_{#mu#mu#gamma}#mu#nu"			        , col_htt_W, "MC10"); 
-	 sample s_etamumu                ("D_{s}#rightarrow#eta_{#mu#mu}#mu#nu"			                , col_rwth_magenta, "MC7"); 
-	 sample s_etaprimemumugamma      ("D_{s}#rightarrow#eta'_{#mu#mu}#mu#nu"		                , col_rwth_red, "MC8"); 
-	 sample s_omega                  ("D_{s}#rightarrow#omega_{#mu#mu#pi}#mu#nu"			        , col_rwth_orange, "MC9"); 
+	 sample ztt_taumu		         ("Z#rightarrow #tau_{3#mu}#tau_{#mu}"					, col_rwth_lightblue, "MC3"); 
+	 //	 sample s_omega                  ("D_{s}#rightarrow#omega_{#mu#mu#pi}#mu#nu"			        , col_rwth_orange, "MC9"); 
 
 
 
@@ -56,15 +50,8 @@ std::vector<sample> defineSamples(){
 	// sample pushed back later will be drawn later, i.e. on top.
 	// All signal samples MUST be added after all background samples! Add them last.
 	 std::vector<sample> samples;
-	 samples.push_back(s_ds); 
-	 samples.push_back(s_b0); 
-	 samples.push_back(s_bp); 
-	 samples.push_back(s_etamumugamma); 
-	 samples.push_back(s_phimumugamma); 
+	 samples.push_back(ztt_taumu); 
 
-	 samples.push_back(s_etamumu); 
-	 samples.push_back(s_etaprimemumugamma); 
-	 samples.push_back(s_omega); 
 
 	if (verbose){
 		std::cout << "###>-- The following samples will be plotted:" << std::endl;
@@ -79,31 +66,34 @@ std::vector<sample> defineSamples(){
 
 // define which plots to draw
 // look at plotInfo.h to see which constructors exist
-std::vector<plotInfo> definePlots(){
+  std::vector<plotInfo> definePlots(){
   std::vector<plotInfo> plots;
   //plots.push_back( plotInfo("HiggsGenMass", "GeV", true, 1, 108, 112));
-  //	plots.push_back( plotInfo("DataMCType", "", true, 1, 11010., 16013.));
-  //	plots.push_back( plotInfo("DataMCTypeFromNtuple", "", true, 1, 0., 20000.));
-  //  plots.push_back( plotInfo("TransverseMass", "GeV", false, 1));
-  
-  plots.push_back( plotInfo("TauMassRefitABC1", "GeV") );  
-  plots.push_back( plotInfo("TauMassRefitABC2", "GeV") );  
-  
-  plots.push_back( plotInfo("TauMassRefitABC1_BDSeparateTrain", "GeV") );  
-  plots.push_back( plotInfo("TauMassRefitABC2_BDSeparateTrain", "GeV") );  
-
-
-
-
-  //	plots.push_back( plotInfo("Cut_10_Nminus1_MT_", "GeV") );
-//	plots.push_back( plotInfo("MtAfterOppCharge", "GeV", false, 2) );
-//	plots.push_back( plotInfo("MetPt", "GeV", false, 1, 0., 80.));
-//
-//	plots.push_back( plotInfo("HiggsPt", "GeV") );
-//	plots.push_back( plotInfo("HiggsPhi", "GeV") );
-//	plots.push_back( plotInfo("TauSelEta", "GeV") );
-//	plots.push_back( plotInfo("VtxRho", "", true, 1, 0., 1.) );
-//	plots.push_back( plotInfo("VtxZ", "") );
+  //  plots.push_back( plotInfo("PostSelection_Vertex_Chi2", "GeV") );  
+  //  plots.push_back( plotInfo("PostSelection_Tau3MuRelativeIsolation", "") );
+  //  plots.push_back( plotInfo("PostSelection_OppositeMuRelativeIsolation", "") );
+  //  plots.push_back( plotInfo("PostSelection_VisibleDiTauMass", "") );
+  plots.push_back( plotInfo("PostSelection_TripletPt", "") );
+  /*plots.push_back( plotInfo("PostSelection_TripletEta", "") );
+  plots.push_back( plotInfo("PostSelection_MET_Et", "") );
+  plots.push_back( plotInfo("PostSelection_MET_Phi", "") );
+  plots.push_back( plotInfo("PostSelection_Mu1_Pt", "") );
+  plots.push_back( plotInfo("PostSelection_Mu1_Eta", "") );
+  plots.push_back( plotInfo("PostSelection_Mu2_Pt", "") );
+  plots.push_back( plotInfo("PostSelection_Mu2_Eta", "") );
+  plots.push_back( plotInfo("PostSelection_Mu3_Pt", "") );
+  plots.push_back( plotInfo("PostSelection_Mu3_Eta", "") );
+  plots.push_back( plotInfo("PostSelection_mu_Pt", "") );
+  plots.push_back( plotInfo("PostSelection_mu_Eta", "") );
+  plots.push_back( plotInfo("PostSelection_Pair_Pt", "") );
+  plots.push_back( plotInfo("PostSelection_Pair_Eta", "") );
+  plots.push_back( plotInfo("PostSelection_FLSignificance", "") );
+  plots.push_back( plotInfo("PostSelection_SVPVTauDirAngle", "") );
+  plots.push_back( plotInfo("PostSelection_VertexChi2KF", "") );
+  plots.push_back( plotInfo("PostSelection_MinDistToIsoTrack", "") );
+  plots.push_back( plotInfo("PostSelection_Kinematics_MissingTrMass_cos", "") );
+  plots.push_back( plotInfo("PostSelection_VisibleDiTauMass_Collinear", "") );
+  */
 
 	return plots;
 }
