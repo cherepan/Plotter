@@ -18,7 +18,6 @@
 // define samples to use
 std::vector<sample> defineSamples(){
 	 sample ztt_taumu		         ("Z#rightarrow #tau_{3#mu}#tau_{#mu}"					, col_rwth_lightblue, "MC3"); 
-	 //	 sample s_omega                  ("D_{s}#rightarrow#omega_{#mu#mu#pi}#mu#nu"			        , col_rwth_orange, "MC9"); 
 
 
 
@@ -68,13 +67,13 @@ std::vector<sample> defineSamples(){
 // look at plotInfo.h to see which constructors exist
   std::vector<plotInfo> definePlots(){
   std::vector<plotInfo> plots;
-  //plots.push_back( plotInfo("HiggsGenMass", "GeV", true, 1, 108, 112));
-  //  plots.push_back( plotInfo("PostSelection_Vertex_Chi2", "GeV") );  
-  //  plots.push_back( plotInfo("PostSelection_Tau3MuRelativeIsolation", "") );
-  //  plots.push_back( plotInfo("PostSelection_OppositeMuRelativeIsolation", "") );
-  //  plots.push_back( plotInfo("PostSelection_VisibleDiTauMass", "") );
+
+  plots.push_back( plotInfo("PostSelection_Vertex_Chi2", "GeV") );  
+  plots.push_back( plotInfo("PostSelection_Tau3MuRelativeIsolation", "") );
+  plots.push_back( plotInfo("PostSelection_OppositeMuRelativeIsolation", "") );
+  plots.push_back( plotInfo("PostSelection_VisibleDiTauMass", "") );
   plots.push_back( plotInfo("PostSelection_TripletPt", "") );
-  /*plots.push_back( plotInfo("PostSelection_TripletEta", "") );
+  plots.push_back( plotInfo("PostSelection_TripletEta", "") );
   plots.push_back( plotInfo("PostSelection_MET_Et", "") );
   plots.push_back( plotInfo("PostSelection_MET_Phi", "") );
   plots.push_back( plotInfo("PostSelection_Mu1_Pt", "") );
@@ -93,7 +92,7 @@ std::vector<sample> defineSamples(){
   plots.push_back( plotInfo("PostSelection_MinDistToIsoTrack", "") );
   plots.push_back( plotInfo("PostSelection_Kinematics_MissingTrMass_cos", "") );
   plots.push_back( plotInfo("PostSelection_VisibleDiTauMass_Collinear", "") );
-  */
+  
 
 	return plots;
 }
